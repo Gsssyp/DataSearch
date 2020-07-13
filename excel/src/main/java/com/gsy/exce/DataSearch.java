@@ -69,24 +69,16 @@ public class DataSearch {
      * @return
      */
     public List<String> procss(List<String> collection1, List<String> collection2) {
-        List<String> result = new ArrayList<String>();
-        for (String col1 : collection1) {
-            for (String col2 : collection2) {
-                if (col1.contains(col2)) {
-                    result.add("1: " + col1 + "    " + "2: " + col2);
-                }
-            }
-        }
+	List<String> result = new ArrayList<String>();
 
-        for (String col2 : collection2) {
-            for (String col1 : collection1) {
-                if (col2.contains(col1)) {
-                    result.add("1: " + col1 + "    " + "2: " + col2);
-                }
-            }
-        }
-        System.out.println("差异条数:" + result.size());
-        return result;
+	collection1.forEach(col1->collection2.forEach(col2->{
+	    if(col1.contains(col2) || col2.contains(col1)){
+		result.add("1: " + col1 + "    " + "2: " + col2);
+	    }
+	}));
+
+	System.out.println("差异条数:" + result.size());
+	return result;
     }
 
     public void output(List<String> collection) {
