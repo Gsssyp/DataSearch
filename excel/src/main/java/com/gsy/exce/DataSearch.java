@@ -44,18 +44,19 @@ public class DataSearch {
         // 2.遍历单元格获取数据
         int lastRowNum = sheet.getLastRowNum();
         for (int i = startRow; i <= lastRowNum; i++) {
+	    Row row = sheet.getRow(i);
+	    String searchContent = row.getCell(contentColumn).getStringCellValue();
 
-            Row row = sheet.getRow(i);
-            String searchContent = row.getCell(contentColumn).getStringCellValue();
+	    if (Objects.isNull(searchContent)) {
+		continue;
+	    }
 
-            if (Objects.nonNull(searchContent) && !"".equals(searchContent)) {
-                String val = searchContent.replace(" ", "");
-                if ("".equals(val)) {
-                    continue;
-                }
-                list.add(val);
-            }
+	    String val = searchContent.replace(" ", "").replaceAll("\\n", "");
+	    if ("".equals(val)) {
+		continue;
+	    }
 
+	    list.add(val);
         }
 
         return list;
