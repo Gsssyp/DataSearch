@@ -25,6 +25,14 @@ import org.apache.poi.ss.usermodel.WorkbookFactory;
 
 public class DataSearch {
 
+    /**
+	 * 获取某一列数据
+	 * @param inputDataPath excel 文件路径
+	 * @param startRow 开始行
+	 * @param contentColumn 数据列
+	 * @return
+	 * @throws Exception
+	 */
     public List<String> input(String inputDataPath, int startRow, int contentColumn) throws Exception {
         List<String> list = new ArrayList<String>();
 
@@ -33,11 +41,13 @@ public class DataSearch {
         Workbook workbook = WorkbookFactory.create(new FileInputStream(inputDataFile));
         Sheet sheet = workbook.getSheetAt(0);
 
-        // 2.遍历单元格获取url
+        // 2.遍历单元格获取数据
         int lastRowNum = sheet.getLastRowNum();
         for (int i = startRow; i <= lastRowNum; i++) {
+
             Row row = sheet.getRow(i);
             String searchContent = row.getCell(contentColumn).getStringCellValue();
+
             if (Objects.nonNull(searchContent) && !"".equals(searchContent)) {
                 String val = searchContent.replace(" ", "");
                 if ("".equals(val)) {
@@ -45,6 +55,7 @@ public class DataSearch {
                 }
                 list.add(val);
             }
+
         }
 
         return list;
@@ -84,7 +95,7 @@ public class DataSearch {
         System.out.println("数据条数:" + collection.size());
     }
 
-    public static void main(String[] args) throws Exception {// 55
+    public static void main(String[] args) throws Exception {
         DataSearch dataSearch = new DataSearch();
         // url
         List<String> searchContentForUrl = dataSearch.input("E:\\Desktop\\非法从事场外配资名单排查\\非法从事场外配资名单.xlsx", 2, 2);
